@@ -1,5 +1,7 @@
 package org.blottn.lca;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 /*
  *  Created by Nicholas Blott
  *
@@ -14,9 +16,9 @@ public class LCAFinder {
     private Node root;
 
     class Node {
-        
+
         int key;
-        Node left, right;
+        Node left, right, parent;
 
         Node(int key) {
             this.key = key;
@@ -38,18 +40,52 @@ public class LCAFinder {
     }
 
     public int getRight(int key) {
-        return 0;
+        Node node = find(key);
+        if (node == null || node.right == null) {
+            return NONE;
+        }
+        return find(key).right.key;
     }
-    
+
     public int getLeft(int key) {
-        return 0;
+        Node node = find(key);
+        if (node == null || node.left == null) {
+            return NONE;
+        }
+        return find(key).left.key;
     }
 
     public void setLeft(int original, int key) {
-        
+        Node node = find(original);
+        if (node != null) {
+            node.left = new Node(key);
+        }
     }
 
     public void setRight(int original, int key) {
-
+        Node node = find(original);
+        if (node != null) {
+            node.right = new Node(key);
+        }
     }
+
+    private Node find(int key) {
+        ConcurrentLinkedQueue<Node> queue = new ConcurrentLinkedQueue<Node>();
+        queue.add(this.root);
+        while(!queue.isEmpty()) {
+            Node current = queue.poll();
+            if (current.key == key) {
+                return current;
+            }
+            if (current.left != null) {
+                queue.add(current.left);
+            }
+
+            if (current.right != null) {
+                queue.add(current.right);
+            }
+        }
+        return null;
+    }
+
 }
