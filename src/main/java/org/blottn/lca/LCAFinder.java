@@ -59,6 +59,7 @@ public class LCAFinder {
         Node node = find(original);
         if (node != null) {
             node.left = new Node(key);
+            node.left.parent = node;
         }
     }
 
@@ -66,6 +67,7 @@ public class LCAFinder {
         Node node = find(original);
         if (node != null) {
             node.right = new Node(key);
+            node.right.parent = node;
         }
     }
 
