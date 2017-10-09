@@ -11,8 +11,22 @@ public class LCAFinder {
 
     public static final int NONE = -1;
 
-    public LCAFinder(int root) {
+    private Node root;
+
+    class Node {
         
+        int key;
+        Node left, right;
+
+        Node(int key) {
+            this.key = key;
+            left = null;
+            right = null;
+        }
+    }
+
+    public LCAFinder(int root) {
+        this.root = new Node(root);
     }
 
     public int lca(int keyA, int keyB) {
@@ -20,7 +34,7 @@ public class LCAFinder {
     }
 
     public int getRoot() {
-        return 0;
+        return root.key;
     }
 
     public int getRight(int key) {
@@ -32,7 +46,7 @@ public class LCAFinder {
     }
 
     public void setLeft(int original, int key) {
-
+        
     }
 
     public void setRight(int original, int key) {
