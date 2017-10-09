@@ -5,18 +5,74 @@ import org.junit.Assert;
 
 public class LCATest {
 
-    @Test
-    public void testThing() {
-        Assert.assertTrue("Whoops what a surprise that failed", true);
-    }
+    // LCA is a symmetric operation so we have to ensure it works regardless of the parameter ordering
 
     @Test
     public void testLCA() {
-        LCAFinder finder = new LCAFinder();
-        finder.findFor(2,6);
-        finder.findFor(0,0);
-        finder.findFor(1,0);
+        int root = 5;
+        LCAFinder finder = new LCAFinder(root);
+        
+        finder.setLeft(5,2);    //setting up the tree
+        finder.setRight(5,6);
+        finder.setRight(6,0);
+        
+        Assert.assertEquals("Root case failed for lca",finder.lca(2,6),5);    //standard test
+        Assert.assertEquals("Root case failed for lca",finder.lca(6,2),5);    //test with parameters swapped to ensure symmetry
+
+        Assert.assertEquals("Case for identical values failed for lca",Rootfinder.lca(0,0),0);    //test for when both parameters are the same
+
+        Assert.assertEquals("Case for non-existent node failed",finder.lca(1,0), LCAFinder.NONE);    //test for non-existent node
+        Assert.assertEquals("Case for non-existent node failed",finder.lca(0,1), LCAFinder.NONE);    //test with parameters swapped to ensure symmetry
+    }
+
+    @Test
+    public void testTreeCreation() {
+        for (int i = 0; i < 1000; i++) {
+            LCAFinder finder = new LCAFinder(i);
+            Assert.assertEquals("Didn't return correct root", i, finder.getRoot());
+        }
+
+        //getRight and setRight checks, if either setRight or getRight are broken these tests should fail
+
+        //test for no righthand value
+        int root = 10;
+        LCAFinder finder = new LCAFinder(root);
+        Assert.assertEquals("Didn't return error response for no righthand value",LCAFinder.NONE, finder.getRight(10));
+
+        //test for correct righthand value "shallow" in tree
+        int rightValue = 12;
+        finder.setRight(root,rightValue);
+        Assert.assertEquals("Didn't return correct righthand value for shallow key",rightValue, finder.getRight(root));
+
+
+        //test for correct righthand value "deep" in tree
+        
+        int someMiddleValue = 56;   //Build in some arbitrary branching in the tree
+        finder.setLeft(12,56);
+        int someOtherRightValue = 25;
+        finder.setRight(someMiddleValue, someOtherRightValue);
+        Assert.assertEquals("Didn't return correct righthand value for deep key",someOtherRightValue, finder.getRight(someMiddleValue));
+
+
+        //getLeft and setLeft checks, if either setLeft or getLeft are broken these tests should fail
+
+        //test for no lefthand value
+        root = 10;
+        finder = new LCAFinder(root);
+        Assert.assertEquals("Didn't return error response for no lefthand value",LCAFinder.NONE, finder.geLeft(10));
+
+        //test for correct lefthand value "shallow" in tree
+        int leftValue = 12;
+        finder.setLeft(root, leftValue);
+        Assert.assertEquals("Didn't return correct lefthand value for shallow key",leftValue, finder.getLeft(root));
+
+        //test for correct righthand value "deep" in tree
+        someMiddleValue = 56;
+        finder.setRight(12,56); //Build in some arbitrary branching in the tree
+        int someOtherLeftValue = 25;
+        finder.setLeft(someMiddleValue, someOtherLeftValue);
+        Assert.assertEquals("Didn't return correct lefthand value for deep key",someOtherLeftValue, finder.getLeft(someMiddleValue));
     }
     
-
+    
 }
