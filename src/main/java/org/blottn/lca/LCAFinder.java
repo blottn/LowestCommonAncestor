@@ -1,7 +1,7 @@
 package org.blottn.lca;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
-
+import java.util.ArrayList;
 /*
  *  Created by Nicholas Blott
  *
@@ -32,7 +32,41 @@ public class LCAFinder {
     }
 
     public int lca(int keyA, int keyB) {
-        return 0;
+        Node nodeA = find(keyA);
+        Node nodeB = find(keyB);
+        ArrayList<Node> trailA = new ArrayList<Node>();
+        ArrayList<Node> trailB = new ArrayList<Node>();
+
+        if (nodeA == null || nodeB == null) {
+            return NONE;
+        }
+
+        if (keyA == keyB) {
+            return keyA;
+        }
+
+        trailA.add(nodeA);
+        trailB.add(nodeB);
+
+        while (!nodeA.equals(root)) {
+            trailA.add(nodeA.parent);
+            nodeA = nodeA.parent;
+        }
+
+        while (!nodeB.equals(root)) {
+            trailB.add(nodeB.parent);
+            nodeB = nodeB.parent;
+        }
+        trailA.add(root);
+        trailB.add(root);
+        int i = 0;
+        while (i < trailA.size() && i < trailB.size() && trailA.get(i).equals(trailB.get(i))) {
+            i++;
+        }
+        if (i == 0) {
+            return root.key;
+        }
+        return trailA.get(i - 1).key;
     }
 
     public int getRoot() {
