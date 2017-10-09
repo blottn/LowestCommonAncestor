@@ -19,7 +19,7 @@ public class LCATest {
         Assert.assertEquals("Root case failed for lca",finder.lca(2,6),5);    //standard test
         Assert.assertEquals("Root case failed for lca",finder.lca(6,2),5);    //test with parameters swapped to ensure symmetry
 
-        Assert.assertEquals("Case for identical values failed for lca",Rootfinder.lca(0,0),0);    //test for when both parameters are the same
+        Assert.assertEquals("Case for identical values failed for lca",finder.lca(0,0),0);    //test for when both parameters are the same
 
         Assert.assertEquals("Case for non-existent node failed",finder.lca(1,0), LCAFinder.NONE);    //test for non-existent node
         Assert.assertEquals("Case for non-existent node failed",finder.lca(0,1), LCAFinder.NONE);    //test with parameters swapped to ensure symmetry
@@ -59,7 +59,7 @@ public class LCATest {
         //test for no lefthand value
         root = 10;
         finder = new LCAFinder(root);
-        Assert.assertEquals("Didn't return error response for no lefthand value",LCAFinder.NONE, finder.geLeft(10));
+        Assert.assertEquals("Didn't return error response for no lefthand value",LCAFinder.NONE, finder.getLeft(10));
 
         //test for correct lefthand value "shallow" in tree
         int leftValue = 12;
