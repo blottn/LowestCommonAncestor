@@ -13,115 +13,76 @@ public class LCAFinder {
 
     public static final int NONE = -1;
 
-    private Node root;
+    private int root;
 
-    class Node {
+	private Node[] dag;
 
-        int key;
-        Node left, right, parent;
+	class Node {
+		int parent;
+		int left;
+		int right;
+		public Node(int left, int right, int parent) {
+			this.left = left;
+			this.right = right;
+			this.parent = parent;
+		}
+	}
 
-        Node(int key) {
-            this.key = key;
-            left = null;
-            right = null;
-        }
-    }
-
-    public LCAFinder(int root) {
-        this.root = new Node(root);
+    public LCAFinder(int size, int root) {
+		dag = new Node[size];
+		for (int i = 0; i < dag.length ; i++) {
+			dag[i] = new Node(NONE, NONE, NONE);
+		}
+		this.root = root;
     }
 
     public int lca(int keyA, int keyB) {
-        Node nodeA = find(keyA);
-        Node nodeB = find(keyB);
-        ArrayList<Node> trailA = new ArrayList<Node>();
-        ArrayList<Node> trailB = new ArrayList<Node>();
-
-        if (nodeA == null || nodeB == null) {
-            return NONE;
-        }
-
-        if (keyA == keyB) {
-            return keyA;
-        }
-
-        trailA.add(nodeA);
-        trailB.add(nodeB);
-
-        while (!nodeA.equals(root)) {
-            trailA.add(nodeA.parent);
-            nodeA = nodeA.parent;
-        }
-
-        while (!nodeB.equals(root)) {
-            trailB.add(nodeB.parent);
-            nodeB = nodeB.parent;
-        }
-        trailA.add(root);
-        trailB.add(root);
-        int i = 0;
-        while (i < trailA.size() && i < trailB.size() && trailA.get(i).equals(trailB.get(i))) {
-            i++;
-        }
-        if (i == 0) {
-            return root.key;
-        }
-        return trailA.get(i - 1).key;
-    }
+        return root;	//TODO implement this
+	}
 
     public int getRoot() {
-        return root.key;
+        return root;
     }
 
     public int getRight(int key) {
-        Node node = find(key);
-        if (node == null || node.right == null) {
-            return NONE;
-        }
-        return find(key).right.key;
+		return dag[key].right;
     }
 
     public int getLeft(int key) {
-        Node node = find(key);
-        if (node == null || node.left == null) {
-            return NONE;
-        }
-        return find(key).left.key;
+        return dag[key].left;
     }
 
-    public void setLeft(int original, int key) {
-        Node node = find(original);
-        if (node != null) {
-            node.left = new Node(key);
-            node.left.parent = node;
-        }
+    public void setLeft(int key, int left) {
+		if (dag[key].left != NONE) {
+			dag[dag[key].left].parent = NONE;
+		}
+		dag[key].left = left;
+		if (dag[left].parent != NONE) {
+			if (dag[dag[left].parent].left == left) {
+				dag[dag[left].parent].left = NONE;
+			}
+			if (dag[dag[left].parent].right == left) {
+				dag[dag[left].parent].right = NONE;
+			}
+		}
+
+		dag[dag[key].left].parent = key;
     }
 
-    public void setRight(int original, int key) {
-        Node node = find(original);
-        if (node != null) {
-            node.right = new Node(key);
-            node.right.parent = node;
-        }
+    public void setRight(int key, int right) {
+		if (dag[key].right != NONE) {	//if it has a right node, set that ones parent to NONE
+			dag[dag[key].right].parent = NONE;
+		}
+		dag[key].right = right;
+		if (dag[right].parent != NONE) {
+			if (dag[dag[right].parent].right == right) {
+				dag[dag[right].parent].right = NONE;
+			}
+			if (dag[dag[right].parent].left == right) {
+				dag[dag[right].parent].left = NONE;
+			}
+		}
+
+		dag[dag[key].right].parent = key;
     }
-
-    private Node find(int key) {
-        ConcurrentLinkedQueue<Node> queue = new ConcurrentLinkedQueue<Node>();
-        queue.add(this.root);
-        while(!queue.isEmpty()) {
-            Node current = queue.poll();
-            if (current.key == key) {
-                return current;
-            }
-            if (current.left != null) {
-                queue.add(current.left);
-            }
-
-            if (current.right != null) {
-                queue.add(current.right);
-            }
-        }
-        return null;
-    }
-
 }
