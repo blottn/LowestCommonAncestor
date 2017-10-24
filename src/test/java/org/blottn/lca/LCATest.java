@@ -72,4 +72,35 @@ public class LCATest {
         finder.setLeft(someMiddleValue, someOtherLeftValue);
         Assert.assertEquals("Didn't return correct lefthand value for deep key",someOtherLeftValue, finder.getLeft(someMiddleValue));
     }
+
+	@Test
+	public void testCyclicTree() {
+		int root = 2;
+		LCAFinder finder = new LCAFinder(root);
+
+		//Building:
+		/*
+				2
+			   / \
+			  1   7
+			 / \ / \
+            12  6   3
+			   /   /
+			  5   / 
+			   \ /
+				0
+		*/
+		
+		finder.setRight(root,7);
+		finder.setLeft(root,1);
+		finder.setLeft(1,12);
+		finder.setRight(1,6);
+		finder.setRight(7,3);
+		finder.setLeft(7,6);
+		finder.setLeft(6,5);
+		finder.setRight(5,0);
+		finder.setLeft(3,0);
+		//Finished construction
+		Assert.assertEquals("didn't work for root and itself ",root,finder.lca(root,root));
+	}
 }
