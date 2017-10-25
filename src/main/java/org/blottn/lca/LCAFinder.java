@@ -50,11 +50,11 @@ public class LCAFinder {
         return dag[key].left;
     }
 
-    public void setLeft(int key, int left) {	//Assert doesn't form cycle
+    public void setLeft(int key, int left) {	//TODO Assert doesn't form cycle
 		dag[key].left = left;
     }
 
-    public void setRight(int key, int right) {	//Assert doesn't form cycle
+    public void setRight(int key, int right) {	//TODO Assert doesn't form cycle
 		dag[key].right = right;
     }
 }
