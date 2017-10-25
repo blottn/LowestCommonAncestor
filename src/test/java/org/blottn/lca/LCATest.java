@@ -10,7 +10,7 @@ public class LCATest {
     @Test
     public void testLCA() {
         int root = 5;
-        LCAFinder finder = new LCAFinder(root);
+        LCAFinder finder = new LCAFinder(30,root);
 
         finder.setLeft(5,2);    //setting up the tree
         finder.setRight(5,6);
@@ -28,7 +28,7 @@ public class LCATest {
     @Test
     public void testTreeCreation() {
         for (int i = 0; i < 1000; i++) {
-            LCAFinder finder = new LCAFinder(i);
+            LCAFinder finder = new LCAFinder(256,i);
             Assert.assertEquals("Didn't return correct root", i, finder.getRoot());
         }
 
@@ -36,7 +36,7 @@ public class LCATest {
 
         //test for no righthand value
         int root = 10;
-        LCAFinder finder = new LCAFinder(root);
+        LCAFinder finder = new LCAFinder(256,root);
         Assert.assertEquals("Didn't return error response for no righthand value",LCAFinder.NONE, finder.getRight(10));
 
         //test for correct righthand value "shallow" in tree
@@ -57,7 +57,7 @@ public class LCATest {
 
         //test for no lefthand value
         root = 10;
-        finder = new LCAFinder(root);
+        finder = new LCAFinder(256,root);
         Assert.assertEquals("Didn't return error response for no lefthand value",LCAFinder.NONE, finder.getLeft(10));
 
         //test for correct lefthand value "shallow" in tree
@@ -76,7 +76,7 @@ public class LCATest {
 	@Test
 	public void testCyclicTree() {
 		int root = 2;
-		LCAFinder finder = new LCAFinder(root);
+		LCAFinder finder = new LCAFinder(256,root);
 
 		//Building:
 		/*
