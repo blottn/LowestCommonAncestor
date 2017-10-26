@@ -1,7 +1,5 @@
 package org.blottn.lca;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.ArrayList;
 /*
  *  Created by Nicholas Blott
  *
