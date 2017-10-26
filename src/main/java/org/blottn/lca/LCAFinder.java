@@ -6,6 +6,7 @@ import java.util.ArrayList;
  *  Created by Nicholas Blott
  *
  *  Class used to find the lowest common ancestor between two nodes in a binary tree (unsorted)
+ *	The lca() method works on the assumption there are no singleton nodes that don't have a reference to them
  *
  */
 
@@ -35,7 +36,11 @@ public class LCAFinder {
     }
 
     public int lca(int keyA, int keyB) {
-        return root;	//TODO implement this
+        return lcaHelper(root, keyA, keyB);
+	}
+
+	private int lcaHelper(int start, int keyA, int keyB) {
+		return start;
 	}
 
     public int getRoot() {
