@@ -19,7 +19,7 @@ public class LCATest {
         Assert.assertEquals("Root case failed for lca", 5, finder.lca(2,6));    //standard test
         Assert.assertEquals("Root case failed for lca", 5, finder.lca(6,2));    //test with parameters swapped to ensure symmetry
 
-        Assert.assertEquals("Case for identical values failed for lca", 0, finder.lca(0,0));    //test for when both parameters are the same
+        Assert.assertEquals("Case for identical values failed for lca: " + finder.toString(), 0, finder.lca(0,0));    //test for when both parameters are the same
 
         Assert.assertEquals("Case for non-existent node failed", LCAFinder.NONE, finder.lca(1,0));    //test for non-existent node
         Assert.assertEquals("Case for non-existent node failed", LCAFinder.NONE, finder.lca(0,1));    //test with parameters swapped to ensure symmetry
@@ -102,5 +102,13 @@ public class LCATest {
 		finder.setLeft(3,0);
 		//Finished construction
 		Assert.assertEquals("didn't work for root and itself ",root,finder.lca(root,root));
+	}
+
+	@Test
+	public void testString() {
+		int root = 0;
+		LCAFinder finder = new LCAFinder(1,root);
+		System.out.println(finder.toString());
+		Assert.assertEquals("toString failed for DAG of just a root",finder.toString(), "0: [left: -1, right: -1] ");
 	}
 }
