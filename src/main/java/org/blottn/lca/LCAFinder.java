@@ -41,6 +41,9 @@ public class LCAFinder {
     }
 
     public int lca(int keyA, int keyB) {
+		if (!contains(root,keyA) || !contains(root,keyB)) {
+			return NONE;
+		}
         return lcaHelper(root, keyA, keyB);
 	}
 
@@ -57,7 +60,7 @@ public class LCAFinder {
 				return lcaHelper(dag[start].left, keyA, keyB);
 			}
 			else if (contains(dag[start].right, keyA) && contains(dag[start].right, keyB)) {
-				return lcaHelper(dag[start].left, keyA, keyB);
+				return lcaHelper(dag[start].right, keyA, keyB);
 			}
 		   	else {
 				return start;
@@ -102,7 +105,7 @@ public class LCAFinder {
 		String out = "";
 		for (int i = 0 ; i < dag.length ; i++) {
 			String tuple = dag[i].toString();
-			out += tuple;
+			out += (i + ": " + tuple);
 			out += " ";
 		}
 		return out;
