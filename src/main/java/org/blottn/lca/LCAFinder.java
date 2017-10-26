@@ -39,8 +39,37 @@ public class LCAFinder {
         return lcaHelper(root, keyA, keyB);
 	}
 
+	// Invariants:
+	/*
+		keyA and keyB are children of start.
+	*/
 	private int lcaHelper(int start, int keyA, int keyB) {
-		return start;
+		if (start == keyA || start == keyB) {
+			return start;
+		}
+		else {
+			if (contains(dag[start].left, keyA) && contains(dag[start].left, keyB)) {
+				return lcaHelper(dag[start].left, keyA, keyB);
+			}
+			else if (contains(dag[start].right, keyA) && contains(dag[start].right, keyB)) {
+				return lcaHelper(dag[start].left, keyA, keyB);
+			}
+		   	else {
+				return start;
+			}
+		}
+	}
+
+	private boolean contains(int start, int key) {
+		if (start == NONE)
+			return false;
+
+		if (start == key) {
+			return true;
+		}
+		else {
+			return contains(dag[start].left,key) || contains(dag[start].right,key);
+		}
 	}
 
     public int getRoot() {
