@@ -37,7 +37,8 @@ public class LCAFinder {
 		}
 		this.root = root;
     }
-
+	
+	//Returns the leftmost lca of keyA and keyB
     public int lca(int keyA, int keyB) {
 		if (!contains(root,keyA) || !contains(root,keyB)) {
 			return NONE;
