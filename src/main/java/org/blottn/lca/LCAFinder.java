@@ -40,14 +40,11 @@ public class LCAFinder {
     public LCAFinder(int size, int root) {
 		dag = new HashMap<Integer,Tuple>();
 		this.root = root;
-		dag.put(root,null);
+		dag.put(root,new Tuple(NONE, NONE));
     }
 	
 	//Returns the leftmost lca of keyA and keyB
     public int lca(int keyA, int keyB) {
-		System.out.println(root);
-		System.out.println(keyA + " " + keyB);
-		System.out.println(this.toString());
 		if (!contains(root,keyA) || !contains(root,keyB)) {
 			return NONE;
 		}

@@ -108,6 +108,6 @@ public class LCATest {
 	public void testString() {
 		int root = 0;
 		LCAFinder finder = new LCAFinder(1,root);
-		Assert.assertEquals("toString failed for DAG of just a root",finder.toString(), "0: [left: -1, right: -1] ");
+		Assert.assertEquals("toString failed for DAG of just a root",finder.toString(), "{0=(-1 , -1)}");
 	}
 }
