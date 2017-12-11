@@ -19,7 +19,7 @@ public class LCAFinder {
 
     private int root;
 
-	private Map<Integer,List<Integer>> dag;
+	private Map<Integer,Tuple> dag;
 
 	private static class Tuple {
 		
@@ -33,7 +33,7 @@ public class LCAFinder {
 	}
 
     public LCAFinder(int size, int root) {
-		dag = new HashMap<Integer,List<Integer>>();
+		dag = new HashMap<Integer,Tuple>();
 		this.root = root;
     }
 	
