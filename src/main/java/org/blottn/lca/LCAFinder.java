@@ -30,6 +30,11 @@ public class LCAFinder {
 			this.left = l;
 			this.right = r;
 		}
+
+		@Override
+		public String toString() {
+			return "(" + left + " , " + right + ")";
+		}
 	}
 
     public LCAFinder(int size, int root) {
