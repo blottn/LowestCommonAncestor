@@ -40,6 +40,7 @@ public class LCAFinder {
 	
 	//Returns the leftmost lca of keyA and keyB
     public int lca(int keyA, int keyB) {
+		System.out.println(this.toString());
 		if (!contains(root,keyA) || !contains(root,keyB)) {
 			return NONE;
 		}
@@ -116,5 +117,9 @@ public class LCAFinder {
 		dag.get(key).right = right;
     }
 
+	@Override
+	public String toString() {
+		return dag.toString();
+	}
 
 }
