@@ -103,10 +103,18 @@ public class LCAFinder {
     }
 
     public void setLeft(int key, int left) {
-
+		if (dag.get(key) == null) {
+			dag.put(key, new Tuple(NONE, NONE));
+		}
+		dag.get(key).left = left;
     }
 
     public void setRight(int key, int right) {
-
+		if (dag.get(key) == null) {
+			dag.put(key, new Tuple(NONE, NONE));
+		}
+		dag.get(key).right = right;
     }
+
+
 }
