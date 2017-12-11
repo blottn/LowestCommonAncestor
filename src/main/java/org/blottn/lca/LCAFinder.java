@@ -35,6 +35,7 @@ public class LCAFinder {
     public LCAFinder(int size, int root) {
 		dag = new HashMap<Integer,Tuple>();
 		this.root = root;
+		dag.put(root,null);
     }
 	
 	//Returns the leftmost lca of keyA and keyB
@@ -42,7 +43,17 @@ public class LCAFinder {
 		if (!contains(root,keyA) || !contains(root,keyB)) {
 			return NONE;
 		}
-        return lcaHelper(root, keyA, keyB);
+		int current = root;
+		while (!split(current,keyA,keyB)){
+			if (contains(getRight(root),keyA)) {
+
+				current = getRight(root);
+			}
+			else {
+				current = getLeft(root);
+			}
+		}
+		return current;
 	}
 
 	// Invariant:
@@ -51,6 +62,10 @@ public class LCAFinder {
 	*/
 	private int lcaHelper(int start, int keyA, int keyB) {
 		return NONE;
+	}
+
+	private boolean split(int root, int l, int r) {
+		return contains(getLeft(root),l) && contains(getRight(root),r);
 	}
 
 	private boolean contains(int start, int key) {
@@ -70,16 +85,28 @@ public class LCAFinder {
     }
 
     public int getRight(int key) {
-		return NONE;
+		if (dag.keySet().contains(key) && dag.get(key) != null) {
+			return dag.get(key).right;
+		}
+		else {
+			return NONE;
+		}
     }
 
     public int getLeft(int key) {
-        return NONE;
+		if (dag.keySet().contains(key) && dag.get(key) != null) {
+			return dag.get(key).left;
+		}
+		else {
+			return NONE;
+		}
     }
 
     public void setLeft(int key, int left) {
+
     }
 
     public void setRight(int key, int right) {
+
     }
 }
