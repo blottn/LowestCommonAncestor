@@ -45,33 +45,31 @@ public class LCAFinder {
 	
 	//Returns the leftmost lca of keyA and keyB
     public int lca(int keyA, int keyB) {
+		System.out.println(root);
+		System.out.println(keyA + " " + keyB);
 		System.out.println(this.toString());
 		if (!contains(root,keyA) || !contains(root,keyB)) {
 			return NONE;
 		}
 		int current = root;
 		while (!split(current,keyA,keyB)){
-			if (contains(getRight(root),keyA)) {
-
-				current = getRight(root);
+			if (contains(getRight(current),keyA) ) {
+				current = getRight(current);
 			}
 			else {
-				current = getLeft(root);
+				current = getLeft(current);
 			}
 		}
 		return current;
 	}
 
-	// Invariant:
-	/*
-		keyA and keyB are children of start.
-	*/
-	private int lcaHelper(int start, int keyA, int keyB) {
-		return NONE;
-	}
-
 	private boolean split(int root, int l, int r) {
-		return contains(getLeft(root),l) && contains(getRight(root),r);
+		if (l == root || r == root) {
+			return true;
+		}
+		boolean both_left = (contains(getLeft(root),l) && contains(getLeft(root),r));
+		boolean both_right = (contains(getRight(root),l) && contains(getRight(root),r));
+		return !(both_left || both_right);
 	}
 
 	private boolean contains(int start, int key) {
@@ -113,6 +111,7 @@ public class LCAFinder {
 			dag.put(key, new Tuple(NONE, NONE));
 		}
 		dag.get(key).left = left;
+		dag.put(left,new Tuple(NONE,NONE));
     }
 
     public void setRight(int key, int right) {
@@ -120,6 +119,7 @@ public class LCAFinder {
 			dag.put(key, new Tuple(NONE, NONE));
 		}
 		dag.get(key).right = right;
+		dag.put(right,new Tuple(NONE,NONE));
     }
 
 	@Override
