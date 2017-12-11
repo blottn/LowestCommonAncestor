@@ -1,5 +1,10 @@
 package org.blottn.lca;
 
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+
 /*
  *  Created by Nicholas Blott
  *
@@ -10,31 +15,14 @@ package org.blottn.lca;
 
 public class LCAFinder {
 
-    public static final int NONE = -1;
+	public static final int NONE = -1;
 
     private int root;
 
-	private Node[] dag;
-
-	class Node {
-		int left;
-		int right;
-		public Node(int left, int right) {
-			this.left = left;
-			this.right = right;
-		}
-
-		@Override
-		public String toString() {
-			return "[" + "left: " + left + ", right: " + right + "]";
-		}
-	}
+	private Map<Integer,List<Integer>> dag;
 
     public LCAFinder(int size, int root) {
-		dag = new Node[size];
-		for (int i = 0; i < dag.length ; i++) {
-			dag[i] = new Node(NONE, NONE);
-		}
+		dag = new HashMap<Integer,List<Integer>>();
 		this.root = root;
     }
 	
@@ -51,20 +39,7 @@ public class LCAFinder {
 		keyA and keyB are children of start.
 	*/
 	private int lcaHelper(int start, int keyA, int keyB) {
-		if (start == keyA || start == keyB) {
-			return start;
-		}
-		else {
-			if (contains(dag[start].left, keyA) && contains(dag[start].left, keyB)) {
-				return lcaHelper(dag[start].left, keyA, keyB);
-			}
-			else if (contains(dag[start].right, keyA) && contains(dag[start].right, keyB)) {
-				return lcaHelper(dag[start].right, keyA, keyB);
-			}
-		   	else {
-				return start;
-			}
-		}
+		return NONE;
 	}
 
 	private boolean contains(int start, int key) {
@@ -75,7 +50,7 @@ public class LCAFinder {
 			return true;
 		}
 		else {
-			return contains(dag[start].left,key) || contains(dag[start].right,key);
+			return contains(getLeft(start),key) || contains(getRight(start),key);
 		}
 	}
 
@@ -84,30 +59,16 @@ public class LCAFinder {
     }
 
     public int getRight(int key) {
-		return dag[key].right;
+		return NONE;
     }
 
     public int getLeft(int key) {
-        return dag[key].left;
+        return NONE;
     }
 
     public void setLeft(int key, int left) {
-		dag[key].left = left;
     }
 
     public void setRight(int key, int right) {
-		dag[key].right = right;
     }
-
-	@Override
-	public String toString() {
-		String out = "";
-		for (int i = 0 ; i < dag.length ; i++) {
-			String tuple = dag[i].toString();
-			out += (i + ": " + tuple);
-			out += " ";
-		}
-		return out;
-	}
-
 }
