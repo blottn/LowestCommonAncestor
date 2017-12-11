@@ -21,6 +21,17 @@ public class LCAFinder {
 
 	private Map<Integer,List<Integer>> dag;
 
+	private static class Tuple {
+		
+		int left;
+		int right;
+
+		public Tuple(int l, int r) {
+			this.left = l;
+			this.right = r;
+		}
+	}
+
     public LCAFinder(int size, int root) {
 		dag = new HashMap<Integer,List<Integer>>();
 		this.root = root;
@@ -34,7 +45,7 @@ public class LCAFinder {
         return lcaHelper(root, keyA, keyB);
 	}
 
-	// Invariants:
+	// Invariant:
 	/*
 		keyA and keyB are children of start.
 	*/
